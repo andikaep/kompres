@@ -18,7 +18,7 @@ class CompressController extends CI_Controller {
     {
         $config['upload_path'] = './uploads/';
         $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['max_size'] = 8048;
+        $config['max_size'] = 2048;
 
         $this->load->library('upload', $config);
 
