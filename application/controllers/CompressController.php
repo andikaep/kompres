@@ -39,19 +39,33 @@ class CompressController extends CI_Controller {
     }
 
     private function compress($path, $file_type)
-{
-    if ($file_type == 'image/jpeg' || $file_type == 'image/jpg') {
-        $image = imagecreatefromjpeg($path);
-        imagejpeg($image, $path, 70); // Turunkan kualitas untuk mengurangi ukuran file
-    } elseif ($file_type == 'image/png') {
-        $image = imagecreatefrompng($path);
-        imagepng($image, $path, 9); // Tingkatkan kompresi ke level maksimum
-    } elseif ($file_type == 'image/gif') {
-        $image = imagecreatefromgif($path);
-        imagegif($image, $path);
+    {
+        if ($file_type == 'image/jpeg' || $file_type == 'image/jpg') {
+            $image = imagecreatefromjpeg($path);
+            
+            // Hapus metadata EXIF
+            $image_without_metadata = imagecreatetruecolor(imagesx($image), imagesy($image));
+            imagecopy($image_without_metadata, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+    
+            // Compress JPEG to 70% quality
+            imagejpeg($image_without_metadata, $path, 70);
+    
+            imagedestroy($image_without_metadata);
+        } elseif ($file_type == 'image/png') {
+            $image = imagecreatefrompng($path);
+    
+            // Reduce color palette if possible (good for images with less color variation)
+            imagetruecolortopalette($image, false, 256);
+    
+            // Maximum PNG compression
+            imagepng($image, $path, 9);
+        } elseif ($file_type == 'image/gif') {
+            $image = imagecreatefromgif($path);
+            imagegif($image, $path);
+        }
+    
+        imagedestroy($image);
     }
-
-    imagedestroy($image);
-}
+    
 
 }
