@@ -21,10 +21,20 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
         }
         .upload-container h3 {
             margin-bottom: 20px;
             color: #333;
+        }
+        .upload-container p {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #495057;
+            font-size: 14px;
         }
         .upload-container input[type="file"] {
             margin-bottom: 20px;
@@ -55,6 +65,8 @@
 
 <div class="upload-container">
     <h3>Upload Gambar untuk Dikompres</h3>
+
+    <p>Max Size: 2 MB<br>Allowed Formats: JPG, PNG, GIF</p>
 
     <div class="error-message">
         <?php echo $error;?>

@@ -22,7 +22,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
-            max-width: 600px;
+            max-width: 450px;
             width: 100%;
         }
         .success-container h3 {
@@ -34,6 +34,9 @@
             font-size: 18px;
             color: #555;
         }
+        .success-container .compression-ratio {
+            color: #4CAF50; /* Warna hijau untuk persen kompresi */
+        }
         .success-container .button-container {
             display: flex;
             justify-content: center;
@@ -43,15 +46,21 @@
         .success-container a.button {
             text-decoration: none;
             color: white;
-            background-color: #1a73e8;
+            background-color: #4CAF50; /* Warna hijau untuk tombol "Lihat gambar" */
             padding: 10px 20px;
             border-radius: 5px;
             font-size: 16px;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .success-container a.button:hover {
-            background-color: #0c51a8;
+            background-color: #388E3C;
             transform: translateY(-2px);
+        }
+        .success-container a.button.download {
+            background-color: #1a73e8; /* Warna biru untuk tombol "Download Gambar" */
+        }
+        .success-container a.button.download:hover {
+            background-color: #0c51a8;
         }
         .image-preview {
             width: 100%;
@@ -81,15 +90,15 @@
 <div class="success-container">
     <h3>Gambar Berhasil Dikompres</h3>
 
-    <p>Berhasil kompres gambar dari <strong><?php echo $original_size; ?></strong> menjadi <strong><?php echo $compressed_size; ?></strong>.</p>
+    <p>Berhasil kompres gambar dari <strong><?php echo $original_size; ?></strong> menjadi <strong><?php echo $compressed_size; ?></strong> (<strong class="compression-ratio"><?php echo $compression_ratio; ?>%</strong>)</p>
 
     <!-- Preview Gambar -->
     <img src="<?php echo base_url('uploads/'.$file_name); ?>" alt="Preview Gambar" class="image-preview">
 
     <!-- Tombol-tombol diatur menggunakan Flexbox -->
     <div class="button-container">
-        <a href="<?php echo base_url('uploads/'.$file_name); ?>" target="_blank" class="button">Klik di sini untuk melihat gambar</a>
-        <a href="<?php echo base_url('uploads/'.$file_name); ?>" download class="button">Download Gambar</a>
+        <a href="<?php echo base_url('uploads/'.$file_name); ?>" target="_blank" class="button">Lihat Gambar</a>
+        <a href="<?php echo base_url('uploads/'.$file_name); ?>" download class="button download">Download Gambar</a>
     </div>
 </div>
 

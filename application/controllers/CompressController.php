@@ -17,7 +17,7 @@ class CompressController extends CI_Controller {
     public function compress_image()
 {
     $config['upload_path'] = './uploads/';
-    $config['allowed_types'] = 'jpg|jpeg|png|gif';
+    $config['allowed_types'] = 'jpg|jpeg|png|gif|webp';
     $config['max_size'] = 2048;
 
     $this->load->library('upload', $config);
@@ -42,13 +42,18 @@ class CompressController extends CI_Controller {
         clearstatcache(); // Bersihkan cache ukuran file
         $compressed_size = filesize($file_path);
 
-        // Tambahkan informasi ukuran file ke data yang dikirim ke view
+        // Hitung persentase pengurangan ukuran
+        $compression_ratio = 100 - (($compressed_size / $original_size) * 100);
+
+        // Tambahkan informasi ukuran file dan persentase kompresi ke data yang dikirim ke view
         $data['original_size'] = $this->format_size_units($original_size);
         $data['compressed_size'] = $this->format_size_units($compressed_size);
+        $data['compression_ratio'] = number_format($compression_ratio, 2);
 
         $this->load->view('upload_success', $data);
     }
 }
+
 
 
 private function format_size_units($bytes)
