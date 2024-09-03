@@ -35,7 +35,7 @@ Configure CodeIgniter:
 
 Configure the Compression Method:
 
-- The compression is handled directly in the ``CompressController.php``. No additional setup is required.
+- The compression is handled directly in the ``Compress.php``. No additional setup is required.
 
 Usage
 -----
