@@ -59,7 +59,7 @@ How It Works
 - **PNG Compression**: Uses PHP's ``imagepng`` function with maximum compression level.
 - **GIF Compression**: Uses PHP's ``imagegif`` function to handle GIF images without further compression (as GIF is already well-compressed).
 
-Example Code in ``CompressController.php``:
+Example Code in ``Compress.php``:
 
 .. code-block:: php
 
