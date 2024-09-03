@@ -72,7 +72,7 @@
         <?php echo $error;?>
     </div>
 
-    <?php echo form_open_multipart('CompressController/compress_image');?>
+    <?php echo form_open_multipart('Compress/compress_image');?>
 
     <input type="file" name="userfile" size="20" />
 
