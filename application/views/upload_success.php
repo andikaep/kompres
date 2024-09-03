@@ -23,15 +23,15 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
-            max-width: 1200px; /* Ukuran maksimal container */
+            max-width: 1200px;
             width: 100%;
-            margin-top: 30px; /* Tambahkan margin atas */
+            margin-top: 30px;
         }
 
         .image-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px; /* Jarak antar item grid */
+            gap: 20px;
         }
 
         .image-container {
@@ -94,6 +94,35 @@
             background-color: #0c51a8;
         }
 
+        .download-all-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .download-all-container button {
+            padding: 12px 25px;
+            font-size: 18px;
+            color: white;
+            background: linear-gradient(to right, #4facfe, #00f2fe); /* Gradien biru */
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-all-container button:hover {
+            background: linear-gradient(to right, #00d2ff, #3a7bd5); /* Warna gradien biru yang lebih dalam */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .download-all-container button:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -105,6 +134,19 @@
             }
         }
     </style>
+    <script>
+        function downloadAll() {
+            var links = document.querySelectorAll('.download-link');
+            links.forEach(function(link) {
+                var a = document.createElement('a');
+                a.href = link.href;
+                a.download = link.download;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        }
+    </script>
 </head>
 <body>
 
@@ -120,11 +162,20 @@
 
             <div class="button-container">
                 <a href="<?php echo base_url('uploads/'.$image['file_name']); ?>" target="_blank" class="button">Lihat Gambar</a>
-                <a href="<?php echo base_url('uploads/'.$image['file_name']); ?>" download class="button download">Download Gambar</a>
+                <a href="<?php echo base_url('uploads/'.$image['file_name']); ?>" download="<?php echo $image['file_name']; ?>" class="button download">Download Gambar</a>
             </div>
         </div>
         <?php endforeach; ?>
     </div>
+
+    <?php if(count($images) > 1): ?>
+    <div class="download-all-container">
+        <button onclick="downloadAll()">Download Semua</button>
+        <?php foreach ($images as $image): ?>
+            <a href="<?php echo base_url('uploads/'.$image['file_name']); ?>" download="<?php echo $image['file_name']; ?>" class="download-link" style="display:none;"></a>
+        <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
 </div>
 
 </body>

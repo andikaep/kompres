@@ -94,7 +94,7 @@ private function compress($path, $file_type)
 
         // Maximum PNG compression
         imagepng($image, $path, 9);
-    }  elseif ($file_type == 'image/webp') { // Tambahkan kondisi untuk WebP
+    } elseif ($file_type == 'image/webp') { // Tambahkan kondisi untuk WebP
         $image = imagecreatefromwebp($path);
 
         // Compress WebP to 70% quality
