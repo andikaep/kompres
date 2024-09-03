@@ -66,7 +66,7 @@
 <div class="upload-container">
     <h3>Upload Gambar untuk Dikompres</h3>
 
-    <p>Max Size: 2 MB<br>Allowed Formats: JPG, PNG, GIF</p>
+    <p>Max Size: 2 MB<br>Allowed Formats: JPG, PNG, WEBP</p>
 
     <div class="error-message">
         <?php echo $error;?>
@@ -74,7 +74,8 @@
 
     <?php echo form_open_multipart('Compress/compress_image');?>
 
-    <input type="file" name="userfile" size="20" />
+    <input type="file" name="userfile[]" multiple size="20" />
+
 
     <br />
 

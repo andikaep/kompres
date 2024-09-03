@@ -182,5 +182,6 @@ return array(
 	'odt'	=>	'application/vnd.oasis.opendocument.text',
 	'odm'	=>	'application/vnd.oasis.opendocument.text-master',
 	'ott'	=>	'application/vnd.oasis.opendocument.text-template',
+	'webp' => array('image/webp'),
 	'oth'	=>	'application/vnd.oasis.opendocument.text-web'
 );

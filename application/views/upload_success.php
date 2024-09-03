@@ -12,9 +12,10 @@
             padding: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100vh;
+            align-items: flex-start;
+            min-height: 100vh;
         }
+
         .success-container {
             background-color: #ffffff;
             padding: 30px;
@@ -22,57 +23,77 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
             animation: fadeIn 0.5s ease-in-out;
-            max-width: 450px;
+            max-width: 1200px; /* Ukuran maksimal container */
             width: 100%;
+            margin-top: 30px; /* Tambahkan margin atas */
         }
-        .success-container h3 {
-            margin-bottom: 20px;
-            color: #333;
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px; /* Jarak antar item grid */
         }
-        .success-container p {
-            margin-bottom: 20px;
-            font-size: 18px;
+
+        .image-container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f8f8;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-container img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .image-container p {
+            margin-top: 10px;
+            font-size: 16px;
             color: #555;
         }
-        .success-container .compression-ratio {
-            color: #4CAF50; /* Warna hijau untuk persen kompresi */
+
+        .compression-ratio {
+            color: #4CAF50;
+            font-weight: bold;
         }
-        .success-container .button-container {
+
+        .button-container {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
-        .success-container a.button {
+
+        .button-container a {
             text-decoration: none;
             color: white;
-            background-color: #4CAF50; /* Warna hijau untuk tombol "Lihat gambar" */
+            background-color: #4CAF50;
             padding: 10px 20px;
             border-radius: 5px;
             font-size: 16px;
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
-        .success-container a.button:hover {
+
+        .button-container a:hover {
             background-color: #388E3C;
             transform: translateY(-2px);
         }
-        .success-container a.button.download {
-            background-color: #1a73e8; /* Warna biru untuk tombol "Download Gambar" */
+
+        .button-container a.download {
+            background-color: #1a73e8;
         }
-        .success-container a.button.download:hover {
+
+        .button-container a.download:hover {
             background-color: #0c51a8;
         }
-        .image-preview {
-            width: 100%;
-            max-width: 300px;
-            margin: 20px auto;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        .image-preview:hover {
-            transform: scale(1.05);
-        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -90,15 +111,19 @@
 <div class="success-container">
     <h3>Gambar Berhasil Dikompres</h3>
 
-    <p>Berhasil kompres gambar dari <strong><?php echo $original_size; ?></strong> menjadi <strong><?php echo $compressed_size; ?></strong> (<strong class="compression-ratio"><?php echo $compression_ratio; ?>%</strong>)</p>
+    <div class="image-grid">
+        <?php foreach ($images as $image): ?>
+        <div class="image-container">
+            <p>Berhasil kompres gambar dari <strong><?php echo $image['original_size']; ?></strong> menjadi <strong><?php echo $image['compressed_size']; ?></strong> (<strong class="compression-ratio"><?php echo $image['compression_ratio']; ?>%</strong>)</p>
 
-    <!-- Preview Gambar -->
-    <img src="<?php echo base_url('uploads/'.$file_name); ?>" alt="Preview Gambar" class="image-preview">
+            <img src="<?php echo base_url('uploads/'.$image['file_name']); ?>" alt="Preview Gambar">
 
-    <!-- Tombol-tombol diatur menggunakan Flexbox -->
-    <div class="button-container">
-        <a href="<?php echo base_url('uploads/'.$file_name); ?>" target="_blank" class="button">Lihat Gambar</a>
-        <a href="<?php echo base_url('uploads/'.$file_name); ?>" download class="button download">Download Gambar</a>
+            <div class="button-container">
+                <a href="<?php echo base_url('uploads/'.$image['file_name']); ?>" target="_blank" class="button">Lihat Gambar</a>
+                <a href="<?php echo base_url('uploads/'.$image['file_name']); ?>" download class="button download">Download Gambar</a>
+            </div>
+        </div>
+        <?php endforeach; ?>
     </div>
 </div>
 
