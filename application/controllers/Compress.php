@@ -75,34 +75,62 @@ class Compress extends CI_Controller {
 
 private function compress($path, $file_type)
 {
+    // Dapatkan ukuran asli gambar
+    list($width, $height) = getimagesize($path);
+
+    // Kurangi resolusi gambar jika terlalu besar
+    $max_dimension = 2000; // Atur ukuran maksimal
+    if ($width > $max_dimension || $height > $max_dimension) {
+        $scale = min($max_dimension / $width, $max_dimension / $height);
+        $new_width = ceil($width * $scale);
+        $new_height = ceil($height * $scale);
+    } else {
+        $new_width = $width;
+        $new_height = $height;
+    }
+
     if ($file_type == 'image/jpeg' || $file_type == 'image/jpg') {
         $image = imagecreatefromjpeg($path);
         
-        // Hapus metadata EXIF
-        $image_without_metadata = imagecreatetruecolor(imagesx($image), imagesy($image));
-        imagecopy($image_without_metadata, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+        // Resize gambar jika diperlukan
+        $image_resized = imagecreatetruecolor($new_width, $new_height);
+        imagecopyresampled($image_resized, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+        
+        // Hapus metadata EXIF dan simpan gambar yang sudah dikompresi
+        imagejpeg($image_resized, $path, 70);
 
-        // Compress JPEG to 70% quality
-        imagejpeg($image_without_metadata, $path, 70);
-
-        imagedestroy($image_without_metadata);
+        imagedestroy($image);
+        imagedestroy($image_resized);
     } elseif ($file_type == 'image/png') {
         $image = imagecreatefrompng($path);
 
-        // Reduce color palette if possible (good for images with less color variation)
-        imagetruecolortopalette($image, false, 256);
+        // Resize gambar jika diperlukan
+        $image_resized = imagecreatetruecolor($new_width, $new_height);
+        imagecopyresampled($image_resized, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+        
+        // Kurangi palet warna jika memungkinkan
+        imagetruecolortopalette($image_resized, false, 256);
 
-        // Maximum PNG compression
-        imagepng($image, $path, 9);
-    } elseif ($file_type == 'image/webp') { // Tambahkan kondisi untuk WebP
-        $image = imagecreatefromwebp($path);
-
-        // Compress WebP to 70% quality
-        imagewebp($image, $path, 70);
+        // Simpan gambar yang sudah dikompresi
+        imagepng($image_resized, $path, 9);
 
         imagedestroy($image);
+        imagedestroy($image_resized);
+    } elseif ($file_type == 'image/webp') {
+        $image = imagecreatefromwebp($path);
+
+        // Resize gambar jika diperlukan
+        $image_resized = imagecreatetruecolor($new_width, $new_height);
+        imagecopyresampled($image_resized, $image, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+        
+        // Simpan gambar yang sudah dikompresi
+        imagewebp($image_resized, $path, 70);
+
+        imagedestroy($image);
+        imagedestroy($image_resized);
     }
 }
+
 
 
 
